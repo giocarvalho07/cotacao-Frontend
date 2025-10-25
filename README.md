@@ -1,70 +1,100 @@
-# Getting Started with Create React App
+# Frontend do Conversor de Moedas
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este é o projeto frontend para o Conversor de Moedas, desenvolvido em React. Ele permite aos usuários converter valores entre diversas moedas, visualizar cotações em tempo real e acompanhar o histórico de suas transações.
 
-## Available Scripts
+## Tecnologias Utilizadas
 
-In the project directory, you can run:
+*   **React:** Biblioteca JavaScript para construção de interfaces de usuário.
+*   **Materialize CSS:** Framework CSS responsivo baseado em Material Design para estilização.
+*   **React Router DOM:** Para gerenciamento de rotas na aplicação de página única (SPA).
+*   **JavaScript (ES6+):** Linguagem de programação principal.
+*   **Fetch API:** Para realizar requisições HTTP ao backend.
 
-### `npm start`
+## Arquitetura do Projeto
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+A arquitetura do projeto segue uma estrutura comum de aplicações React, organizada para facilitar a manutenção e escalabilidade:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+cotacao-Frontend/
+├── public/               # Arquivos estáticos (index.html, manifest.json, etc.)
+├── src/
+│   ├── components/       # Componentes reutilizáveis (Navbar, TransactionTable)
+│   ├── pages/            # Componentes de página (Home, Converter)
+│   ├── App.js            # Componente raiz da aplicação e configuração de rotas
+│   ├── index.js          # Ponto de entrada da aplicação React
+│   └── ...               # Outros arquivos (CSS, testes, etc.)
+├── package.json          # Metadados do projeto e dependências
+├── README.md             # Este arquivo
+└── ...
+```
 
-### `npm test`
+### Componentes Principais:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+*   **`App.js`**: O componente principal que define a estrutura da aplicação e configura as rotas usando `react-router-dom`.
+*   **`pages/Home.js`**: A página inicial (landing page) que apresenta o projeto, uma breve descrição e um carrossel interativo com cotações de moedas em tempo real. Possui um botão para navegar até a página de conversão.
+*   **`pages/Converter.js`**: A página principal de conversão de moedas. Contém um formulário para selecionar as moedas de origem e destino, o valor a ser convertido e o nome do usuário. Exibe o resultado da conversão e o histórico de transações.
+*   **`components/Navbar.js`**: O componente de navegação superior, presente em todas as páginas. Exibe o título do projeto e um link para a página de conversão.
+*   **`components/TransactionTable.js`**: Um componente reutilizável que exibe o histórico de transações. Inclui funcionalidades de paginação (10 itens por página) e busca por termo (usuário ou tipo de transação).
 
-### `npm run build`
+## Interação com a API Backend
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+O frontend se comunica com uma API backend (esperada em `http://localhost:8080/api/v1/cotacao`) para obter dados e realizar operações. Os principais endpoints utilizados são:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+*   **`GET /api/v1/cotacao/moedas-disponiveis`**: Utilizado para obter a lista completa de moedas disponíveis e suas cotações detalhadas. Esta informação é usada para popular os dropdowns de seleção de moedas no conversor e para exibir o carrossel de cotações na página inicial.
+*   **`POST /api/v1/cotacao/converter`**: Utilizado para realizar a conversão de moedas. Recebe `from` (moeda de origem), `to` (moeda de destino), `amount` (valor a ser convertido) e `nomeUsuario` (nome do usuário que realiza a transação).
+*   **`GET /api/v1/cotacao/transacoes?page={page}&size={size}&searchTerm={term}`**: Utilizado para buscar o histórico de transações. Suporta paginação (parâmetros `page` e `size`) e filtragem por termo de busca (`searchTerm`).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Funcionalidades
 
-### `npm run eject`
+*   **Conversão de Moedas Genérica:** Converta entre qualquer par de moedas suportado pela API backend.
+*   **Cotações em Tempo Real:** Visualize um carrossel interativo na página inicial com as cotações atualizadas de diversas moedas, incluindo ícones de bandeiras para moedas nacionais e logos para criptomoedas.
+*   **Histórico de Transações:** Acompanhe todas as conversões realizadas, com paginação e funcionalidade de busca por usuário ou tipo de transação.
+*   **Interface Moderna:** Design limpo e responsivo utilizando Materialize CSS.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Como Configurar e Rodar Localmente
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Para rodar este projeto frontend em sua máquina local, siga os passos abaixo:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Pré-requisitos
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+*   Node.js (versão 14 ou superior) e npm (gerenciador de pacotes do Node.js) instalados.
+*   O projeto backend do Conversor de Moedas deve estar rodando e acessível em `http://localhost:8080`.
 
-## Learn More
+### Passos
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1.  **Clone o repositório (se ainda não o fez):**
+    ```bash
+    git clone <URL_DO_SEU_REPOSITORIO_FRONTEND>
+    cd cotacao-Frontend
+    ```
+    *(Se você já tem o projeto, apenas navegue até a pasta `cotacao-Frontend`.)*
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2.  **Instale as dependências:**
+    ```bash
+    npm install
+    ```
 
-### Code Splitting
+3.  **Inicie o servidor de desenvolvimento:**
+    ```bash
+    npm start
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    Isso iniciará a aplicação em modo de desenvolvimento. Abra [http://localhost:3000](http://localhost:3000) (ou a porta indicada no seu terminal) para visualizá-la no navegador.
 
-### Analyzing the Bundle Size
+    A página será recarregada automaticamente se você fizer edições. Você também verá quaisquer erros de lint no console.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Scripts Disponíveis
 
-### Making a Progressive Web App
+No diretório do projeto, você pode rodar:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+*   **`npm start`**
+    Inicia a aplicação em modo de desenvolvimento.
 
-### Advanced Configuration
+*   **`npm run build`**
+    Compila a aplicação para produção na pasta `build`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+*   **`npm test`**
+    Inicia o executor de testes em modo interativo.
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*   **`npm eject`**
+    Remove a dependência de build do `react-scripts` e copia as configurações e scripts para o diretório do projeto. Use com cautela, pois esta operação é irreversível.
